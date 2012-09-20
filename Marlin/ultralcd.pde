@@ -489,6 +489,9 @@ void MainMenu::showStatus()
   {
     encoderpos=feedmultiply;
     lcd.setCursor(0,0);lcdprintPGM("\002---/---\001 ");
+    #if defined BED_USES_THERMISTOR || defined BED_USES_AD595 
+      lcd.setCursor(10,0);lcdprintPGM("B---/---\001 ");
+    #endif
   }
     
   int tHotEnd0=intround(degHotend0());
@@ -507,6 +510,25 @@ void MainMenu::showStatus()
     lcd.print(ftostr3(ttHotEnd0));
     oldtargetHotEnd0=ttHotEnd0;
   }
+  
+  #if defined BED_USES_THERMISTOR || defined BED_USES_AD595 
+    static int oldtBed=-1;
+    static int oldtargetBed=-1; 
+    int tBed=intround(degBed());
+    if((tBed!=oldtBed)||force_lcd_update)
+    {
+      lcd.setCursor(11,0);
+      lcd.print(ftostr3(tBed));
+      oldtBed=tBed;
+    }
+    int targetBed=intround(degTargetBed());
+    if((targetBed!=oldtargetBed)||force_lcd_update)
+    {
+      lcd.setCursor(15,0);
+      lcd.print(ftostr3(targetBed));
+      oldtargetBed=targetBed;
+    }
+  #endif
 
   if(messagetext[0]!='\0')
   {
@@ -517,6 +539,17 @@ void MainMenu::showStatus()
       lcd.print(" ");
     messagetext[0]='\0';
   }
+
+  #ifdef SDSUPPORT
+    static uint8_t oldpercent=101;
+    uint8_t percent=card.percentDone();
+    if(oldpercent!=percent ||force_lcd_update)
+    {
+       lcd.setCursor(LCD_WIDTH-5,1);
+      lcd.print(itostr3((int)percent));
+      lcdprintPGM("%");
+    }
+  #endif
 
 #endif
   force_lcd_update=false;
