@@ -490,7 +490,7 @@ void MainMenu::showStatus()
     encoderpos=feedmultiply;
     lcd.setCursor(0,0);lcdprintPGM("\002---/---\001 ");
     #if defined BED_USES_THERMISTOR || defined BED_USES_AD595 
-      lcd.setCursor(10,0);lcdprintPGM("B---/---\001 ");
+      lcd.setCursor(LCD_WIDTH-9,0);lcdprintPGM("B---/---\001 ");
     #endif
   }
     
@@ -524,7 +524,7 @@ void MainMenu::showStatus()
     int targetBed=intround(degTargetBed());
     if((targetBed!=oldtargetBed)||force_lcd_update)
     {
-      lcd.setCursor(15,0);
+      lcd.setCursor(LCD_WIDTH-9,0);
       lcd.print(ftostr3(targetBed));
       oldtargetBed=targetBed;
     }
@@ -545,7 +545,7 @@ void MainMenu::showStatus()
     uint8_t percent=card.percentDone();
     if(oldpercent!=percent ||force_lcd_update)
     {
-       lcd.setCursor(LCD_WIDTH-5,1);
+      lcd.setCursor(LCD_WIDTH-4,1);
       lcd.print(itostr3((int)percent));
       lcdprintPGM("%");
     }
