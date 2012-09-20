@@ -517,14 +517,14 @@ void MainMenu::showStatus()
     int tBed=intround(degBed());
     if((tBed!=oldtBed)||force_lcd_update)
     {
-      lcd.setCursor(11,0);
+      lcd.setCursor(LCD_WIDTH-8,0);
       lcd.print(ftostr3(tBed));
       oldtBed=tBed;
     }
     int targetBed=intround(degTargetBed());
     if((targetBed!=oldtargetBed)||force_lcd_update)
     {
-      lcd.setCursor(LCD_WIDTH-9,0);
+      lcd.setCursor(LCD_WIDTH-4,0);
       lcd.print(ftostr3(targetBed));
       oldtargetBed=targetBed;
     }
